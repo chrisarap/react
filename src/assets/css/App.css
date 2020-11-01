@@ -1,0 +1,101 @@
+
+
+.myCal{
+  margin:auto;
+  background-color: darkred;
+  width: 80%;
+  height: 50%;
+}
+.btns{
+  display: grid;
+  grid-template-areas: 
+    "ac ac  divide multiplyto"
+    "seven eight nine takeaway"
+    "four five six addto"
+    "one two three equal"
+    "zeroto zeroto period equal";
+    grid-template-columns: repeat(25%, 4);
+    grid-template-rows: repeat(25%, );
+    justify-content: center;
+    align-items: center;
+    border: solid;
+}
+
+#ac {grid-area: ac;}
+#divide {grid-area: divide;}
+#multiply{grid-area: multiplyto;}
+#addto{grid-area: addto;}
+#takeaway{grid-area: takeaway;}
+#equal{grid-area: equal;}
+#period{grid-area: period;}
+#zero{grid-area: zeroto;}
+#one{grid-area: one;}
+#two{grid-area: two;}
+#three{grid-area: three;}
+#four{grid-area: four;}
+#five{grid-area: five;}
+#six{grid-area: six;}
+#seven{grid-area: seven;}
+#eight{grid-area: eight;}
+#nine{grid-area: nine;}
+
+
+.myBtn{
+  background: darkgrey;
+  width: 40px;
+  height: 40px;
+  color: black;
+  border: solid 1px;
+}
+
+.myBtn:hover{
+  background-color: black;
+  color: white;
+}
+
+.hrzBtn{
+  width: 80px;
+}
+
+.vrtBtn{
+  height: 80px;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
