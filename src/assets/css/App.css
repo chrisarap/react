@@ -1,4 +1,14 @@
 
+.editMax {
+  width: 100%;
+  background: green;
+}
+
+textarea {
+  width: 70%;
+  height: 70%;
+}
+
 
 .myCal{
   margin:auto;

@@ -166,29 +166,45 @@ class Calculator extends React.Component {
 
     render(){
         return (
+            <div class="container">
             <div>
-                <p>{this.state.input}</p>
-                {this.state.shortMessage=="" ? <h1>0</h1> : <h1>{this.state.shortMessage}</h1>}
-                <button value={0} onClick={this.handleNumbers}>0</button>
-                <button value={1} onClick={this.handleNumbers}>1</button>
-                <button value={2} onClick={this.handleNumbers}>2</button>
-                <button value={3} onClick={this.handleNumbers}>3</button>
-                <button value={4} onClick={this.handleNumbers}>4</button>
-                <button value={5} onClick={this.handleNumbers}>5</button>
-                <button value={6} onClick={this.handleNumbers}>6</button>
-                <button value={7} onClick={this.handleNumbers}>7</button>
-                <button value={8} onClick={this.handleNumbers}>8</button>
-                <button value={9} onClick={this.handleNumbers}>9</button>
+                <p className="well">{this.state.input}</p>
+                {this.state.shortMessage=="" ? <h1 className="well">0</h1> : <h1 className="well">{this.state.shortMessage}</h1>}
+                <div>
+                    <button className="btn btn-danger x2width" value="ac" onClick={this.reset}>ac</button>
+                    <button className="btn btn-info" value="*" onClick={this.handleSign}>*</button>
+                    <button className="btn btn-info" value="/" onClick={this.handleSign}>/</button>
+                </div>
+                <div>
+                    <button className="btn btn-primary" value={7} onClick={this.handleNumbers}>7</button>
+                    <button className="btn btn-primary" value={8} onClick={this.handleNumbers}>8</button>
+                    <button className="btn btn-primary" value={9} onClick={this.handleNumbers}>9</button>
+                    <button className="btn btn-info" value="-" onClick={this.handleSign}>-</button>
+                </div>
+                <div>
+                    <button className="btn btn-primary" value={4} onClick={this.handleNumbers}>4</button>
+                    <button className="btn btn-primary" value={5} onClick={this.handleNumbers}>5</button>
+                    <button className="btn btn-primary" value={6} onClick={this.handleNumbers}>6</button>
+                    <button className="btn btn-info" value="+" onClick={this.handleSign}>+</button>
+                </div>
 
-                <button value="ac" onClick={this.reset}>ac</button>
-                <button value="=" onClick={this.maths}>=</button>
-
-                <button value="+" onClick={this.handleSign}>+</button>
-                <button value="-" onClick={this.handleSign}>-</button>
-                <button value="*" onClick={this.handleSign}>*</button>
-                <button value="/" onClick={this.handleSign}>/</button>
-
-
+                <div className="box">
+                    <div>
+                        <div>
+                            <button className="btn btn-primary" value={1} onClick={this.handleNumbers}>1</button>
+                            <button className="btn btn-primary" value={2} onClick={this.handleNumbers}>2</button>
+                            <button className="btn btn-primary" value={3} onClick={this.handleNumbers}>3</button>
+                        </div>
+                        <div>
+                            <button className="btn btn-primary x2width" value={0} onClick={this.handleNumbers}>0</button>
+                            <button className="btn btn-info" value="." >.</button>
+                        </div>
+                    </div>
+                    <div>
+                        <button className="btn btn-danger x2height" value="=" onClick={this.maths}>=</button>
+                    </div>
+                </div>
+            </div>
             </div>
         ); 
     }
