@@ -1,0 +1,13 @@
+.editMax{
+	background: black;
+	width: 100%;
+}
+
+.editMin{
+	background: green;
+	width: 10px;
+}
+
+.Toolbar {
+	background: darkred;
+}

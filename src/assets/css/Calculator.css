@@ -1,0 +1,39 @@
+body{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+}
+
+.btn {
+	width: 80px;
+	height: 65px
+}
+
+.x2width{
+	width: 160px;
+}
+
+.x2height{
+	height: 130px;
+}
+
+.box{
+	display: flex;
+	flex-direction: row;
+}
+
+.well{
+	width: 320px;
+}
+
+.container{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 50px;
+	border: solid;
+	padding: 10px;
+	border-radius: 5px;
+	width: 350px;
+}
