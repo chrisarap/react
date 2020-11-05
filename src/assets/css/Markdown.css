@@ -1,13 +1,94 @@
-.editMax{
-	background: black;
-	width: 100%;
+.App{
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
-.editMin{
-	background: green;
-	width: 10px;
+.Markdown {
+	width: 80vw;
+	height: 90vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
 }
+
+/* editor*/
+
+.editor {
+	display: flex;
+	flex-direction: column;
+
+}
+
+.editMax{
+	width: 100%;
+	height: 100%;
+}
+
+
+.editMin{
+	width: 50vw;
+	height: 40vh;
+}
+
+
+.editHide {
+	display: none;
+}
+
+/* textareas*/
+.minText {
+	width: 100%;
+	height: 35vh;
+	border: none;
+}
+
+.maxText {
+	width: 100%;
+	height: 84vh;	
+}
+
+/* viewer*/
+
+.viewMax {
+	width: 100%;
+	height: 100%;
+}
+
+.viewMin {
+	width: 50vw;
+	height: 40vh;
+}
+
+.viewHide {
+	display: none;
+}
+
+/* toolbar*/
 
 .Toolbar {
 	background: darkred;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 5vh;
+	border-radius: 5px 5px 0 0;
+	padding: 5px;
+}
+
+.startToolbar {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.fas {
+	color: white;
+}
+
+.fa-square:hover{
+	color:darkgrey;
 }

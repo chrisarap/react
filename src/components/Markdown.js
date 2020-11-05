@@ -2,11 +2,17 @@ import React from 'react';
 
 class Markdown extends React.Component {
 	constructor(props){
-		super(props);
+		super(props);	
 		this.state = {
 			input: text,
+
 			editMax: false,
-			viewMax: false
+			editHide: false,
+
+			viewMax: false,
+			viewHide: false
+			
+
 		};
 		// connect buttons
 		this.handleChange =  this.handleChange.bind(this);
@@ -21,38 +27,60 @@ class Markdown extends React.Component {
 		});
 	}
 
+	// editor
 	handleEditMax(){
 		this.setState(state => {
-			return state.editMax 
-			? {editMax: false} 
-			: {editMax: true};
+			return !state.editMax 
+			? {
+				editMax: true,
+				editHide: false,
+				viewMax: false,
+				viewHide: true
+			} 
+			: {
+				editMax: false,
+				editHide: false,
+				viewMax: false,
+				viewHide: false
+			};
 		});
 	}
 
+	// viewer
 	handleViewMax(){
 		this.setState(state => {
-			return state.viewMax 
-			? {viewMax: false} 
-			: {viewMax: true};
-		});	
+			return !state.viewMax 
+			? {
+				editMax: false,
+				editHide: true,
+				viewMax: true,
+				viewHide: false
+			} 
+			: {
+				editMax: false,
+				editHide: false,
+				viewMax: false,
+				viewHide: false
+			};
+		});
 	}
 
 	render(){
-		const classes = this.state.editMax 
-		? ["editMax", "viewMax"] 
+		const classes = this.state.editMax ? ["editMax", "viewHide"] 
+		: this.state.viewMax ? ["editHide", "viewMax"]
 		: ["editMin", "viewMin"];
 
+		const textClass = (this.state.editMax || this.state.viewMax) ? "maxText" : "minText";
 		return (
-			<div>
+			<div className="Markdown">
 				{/* editor */}
 				<div className={classes[0]}>
-					<button >maximixar</button>
-					<Editor myProp={this.handleEditMax} input={this.state.input} onChange={this.handleChange} />
+					<Editor myClass={textClass} myProp={this.handleEditMax} input={this.state.input} onChange={this.handleChange} />
 				</div>
 
 				{/* viewer */}
 				<div className={classes[1]}>				
-					<Viewer input={this.state.input} />
+					<Viewer myClass={textClass} myProp={this.handleViewMax} input={this.state.input} />
 				</div>
 			</div>
 		);
@@ -61,9 +89,9 @@ class Markdown extends React.Component {
 
 const Editor = props => {
 	return (
-		<div>
+		<div className="editor">
 			<Toolbar onClick={props.myProp} name="Editor"/>
-			<textarea value={props.input} onChange={props.onChange} />
+				<textarea className={props.myClass} value={props.input} onChange={props.onChange} />
 		</div>
 	);
 }
@@ -71,8 +99,8 @@ const Editor = props => {
 const Viewer = props => {
 	return (
 		<div>
-			<Toolbar name="Viewer"/>
-			<textarea value={props.input} disabled />
+			<Toolbar onClick={props.myProp} name="Viewer"/>
+			<textarea className={props.myClass} value={props.input} disabled />
 		</div>
 	);
 }
@@ -80,9 +108,10 @@ const Viewer = props => {
 const Toolbar = props => {
 	return (
 		<div className="Toolbar">
-			<button onClick={props.onClick}>logo</button>
-			<p>{props.name}</p>
-			<button>cruz</button>
+			<div className="startToolbar">			
+				<i class="fas fa-fire">{props.name}</i>				
+			</div>
+			<i class="fas fa-square" onClick={props.onClick}></i>
 		</div>
 	);
 }
