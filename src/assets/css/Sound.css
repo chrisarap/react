@@ -1,0 +1,26 @@
+body{
+	background: grey;
+}
+
+.powerUp{
+	background: green;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+}
+
+.powerOff{
+	background: red;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+}
+
+.light {
+	width: 50vw;
+	border: solid;
+	border-color: white;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
