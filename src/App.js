@@ -6,21 +6,21 @@ import React from 'react';
 //import './assets/css/Quotes.css';
 //import './assets/css/Calculator.css';
 //import './assets/css/Markdown.css';
-//import './assets/css/Sound.css';
-import './assets/css/Clock.css';
+import './assets/css/Sound.css';
+//import './assets/css/Clock.css';
 
 // javascript files
 //import Bata from "./components/MyComponent.js";
 //import Calculator from "./components/Calculator.js";
 //import Quotes from "./components/Quotes.js";
 //import Markdown from "./components/Markdown.js";
-//import Sound from "./components/Sound.js";
-import Clock from "./components/Clock.js";
+import Sound from "./components/Sound.js";
+//import Clock from "./components/Clock.js";
 
 function App() {
   return (
     <div className="App">      
-        <Clock />       
+        <Sound />       
     </div>
   );
 }

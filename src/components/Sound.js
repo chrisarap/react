@@ -118,13 +118,12 @@ class Sound extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			power: false,
-			change: false
-			
+			power: true,
+			change: false,
+			arrSound: bankOne			
 		};
 		this.power = this.power.bind(this);
 		this.change = this.change.bind(this);
-
 	}
 
 	power(){
@@ -134,22 +133,31 @@ class Sound extends React.Component {
 	}
 
 	change(){
-		this.setState(state => ({
-			change: !state.change
-		}));
+		this.setState(state => 
+			state.change
+			? {
+				change: false,
+				arrSound: bankOne				
+			}
+			: {
+				change: true,
+				arrSound: bankTwo
+			}
+		);
 	}
-
 
 	render(){
 		const powerUp = this.state.power ? "powerUp" : "powerOff";
 		const changeUp = this.state.change ? "powerUp" : "powerOff";
 
 		return (
-			<div>
+			<div id='drum-machine'>
 				
-				{this.state.power && <Btns myProp={this.state.change}/>}
-				{!this.state.power && <BtnOff />}
-
+				<Btns 
+					myProp={this.state.change} 
+					powerState={this.state.power}
+					soundState={this.state.arrSound}
+				/>
 
 				<div className="light">
 					<button onClick={this.power}>power</button>
@@ -160,50 +168,23 @@ class Sound extends React.Component {
 					<button onClick={this.change}>change sound</button>
 					<div className = {changeUp}></div>
 				</div>
-
-				
-
-
 			</div>
 		);
 	}
 }
-
-const BtnOff = () => {
-	return (
-		<div>
-			<h1>Happy Hacking</h1>
-
-			<button>q</button>
-			<button>w</button>
-			<button>e</button>
-
-			<button>a</button>
-			<button>s</button>
-			<button>d</button>
-
-			<button>z</button>
-			<button>x</button>
-			<button>c</button>
-
-			<input type="range" />
-		</div>
-	);
-};
 
 class Btns extends React.Component{
 	constructor(props){
 		super(props);
 		this.state={
 			keyCode: 0,
-			name: ""
+			name: bankOne[0].id,
+			volState: 1
 		};
 		this.playSound = this.playSound.bind(this);
 		this.playSoundClick = this.playSoundClick.bind(this);
 	    this.handleKeyPress = this.handleKeyPress.bind(this);
-	    			    this.vol = this.vol.bind(this);
-	    			    this.rep = this.rep.bind(this);
-
+		this.vol = this.vol.bind(this);
   }
 	componentDidMount() {
 		document.addEventListener('keydown', this.handleKeyPress);
@@ -223,10 +204,13 @@ class Btns extends React.Component{
 		let myArr = !this.props.myProp ? bankOne : bankTwo;
 		const position = myArr.map(i=>i.keyCode).indexOf(this.state.keyCode);
 		const theName = myArr.map(i=>i.id)[position];
+		const theName2 = myArr;
 		
-		if (position != -1) {
-			const myA = new Audio(myArr[position].url);
-			myA.play();
+		if (position !== -1) {
+			const soundControl = document.getElementById(theName2[position].keyTrigger);
+			soundControl.volume = this.state.volState;
+			soundControl.play();
+
 			this.setState({
 				name: theName
 			});
@@ -235,45 +219,67 @@ class Btns extends React.Component{
 
 	playSoundClick(e){
 		let myArr = !this.props.myProp ? bankOne : bankTwo;
-		
+		let theName = myArr.filter(d=>d.keyTrigger === e.target.value);
 		this.setState({
-			name: myArr[e.target.value].id
+			name: theName[0].id
 		});
-
-		const myA = new Audio(myArr[e.target.value].url);
-		myA.play();
-	}
-
-	rep(){
-		const verga = document.getElementById("audioTest");
-		verga.play();
+		
+		const soundControl = document.getElementById(e.target.value);
+		soundControl.volume = this.state.volState;
+		soundControl.play();
 	}
 	vol(e){
-		let myVolume = document.getElementById("audioTest");
-		myVolume.volume = e.target.value / 100; 
+		this.setState({
+			volState: e.target.value / 100
+		});
 	}
 	render(){
+		let myArr = !this.props.myProp ? bankOne : bankTwo;
+		let test;
+
+		if (this.props.powerState) {
+			test = myArr.map((d, i) => {
+				return (
+					<button 
+						className='drum-pad'
+						id={myArr[i].id}
+						value={myArr[i].keyTrigger}
+						onClick={this.playSoundClick}
+					>
+						<audio 
+							src={myArr[i].url} 
+							className= 'clip'
+							id={myArr[i].keyTrigger} 
+						/>					
+						{myArr[i].keyTrigger}
+					</button>	
+				);
+			});
+		} else {
+			test = myArr.map((d, i) => {
+				return (
+					<button 
+						className='drum-pad'
+						id={myArr[i].id}
+						value={myArr[i].keyTrigger}
+					>
+						<audio 
+							src={myArr[i].url} 
+							className= 'clip'
+							id={myArr[i].keyTrigger} 
+						/>					
+						{myArr[i].keyTrigger}
+					</button>	
+				);
+			});
+		}
+
 		return (
 			<div>
-				<h1>{this.state.name}</h1>
-
-				<input type="range" onChange={this.vol} />
-				
-				<button value={0} onClick={this.playSoundClick}>q</button>
-				<button value={1} onClick={this.playSoundClick}>w</button>
-				<button value={2} onClick={this.playSoundClick}>e</button>
-
-				<button value={3} onClick={this.playSoundClick}>a</button>
-				<button value={4} onClick={this.playSoundClick}>s</button>
-				<button value={5} onClick={this.playSoundClick}>d</button>
-
-				<button value={6} onClick={this.playSoundClick}>z</button>
-				<button value={7} onClick={this.playSoundClick}>x</button>
-				<button value={8} onClick={this.playSoundClick}>c</button>
-				<button onClick={this.rep}><audio src='https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3' id="audioTest" />extrs</button>
-				
-
-			</div>	
+				<h1 id='display'>{this.state.name}</h1>
+				<input type="range" onChange={this.vol} />				
+				{test}
+			</div>
 		);
 	}
 }
