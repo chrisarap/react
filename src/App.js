@@ -4,7 +4,7 @@ import React from 'react';
 // css files
 //import './assets/css/App.css';
 //import './assets/css/Quotes.css';
-//import './assets/css/Calculator2.css';
+import './assets/css/Calculator.css';
 //import './assets/css/Markdown.css';
 //import './assets/css/Sound.css';
 //import './assets/css/Clock.css';

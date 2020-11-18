@@ -16,31 +16,22 @@ class Calculator2 extends React.Component{
 	}
 
 	handleNumbers(e){
-		this.setState(state => {
-			// si el valor actual es 0 y el valor de entrada es diferente de 0
-			// elimina el 0 inicial y agrega el número nuevo que es diferente de 0
-			if (state.currentValue == '0' && e.target.value != '0') {
-				console.log('condicion uno');
-				return {
-					currentValue: e.target.value,
-					formula: e.target.value
-				};
-			// elimina el signo al agregar un número
-			} else if(['+','-','/','*'].includes(state.currentValue)) {
-				console.log('condicion dos')
-				return {
-					formula: state.formula + e.target.value,
-					currentValue: e.target.value
-				};
-			// si el valor actual es diferente de 0, agrega cualquier número incluyendo el 0
-			} else if(state.currentValue != '0') {
-				console.log('condicion tres');
-				return {
-					currentValue: state.currentValue + e.target.value,
-					formula: state.formula + e.target.value
-				};
-			}
-		});
+		if (this.state.currentValue == '0' && e.target.value != '0') {
+			this.setState({
+				currentValue: e.target.value,
+				formula: e.target.value
+			});
+		} else if (['+','-','/','*'].includes(this.state.currentValue)) {
+			this.setState(state=>({
+				formula: state.formula + e.target.value,
+				currentValue: e.target.value
+			}));
+		} else if(this.state.currentValue != '0') {
+			this.setState({
+				currentValue: this.state.currentValue + e.target.value,
+				formula: this.state.formula + e.target.value
+			});
+		}
 	}
 		
 	handleDecimal(e){
@@ -78,29 +69,61 @@ class Calculator2 extends React.Component{
 	}
 
 	handleResult(){
-		let res = eval(this.state.formula);
-		console.log(typeof res, res);
+		let signs = this.state.formula.match(/[\W]+/);
+		let signsSize = signs[0].split('');
+		let numbers = this.state.formula.match(/\d+/g);
 
-		this.setState({
-			formula: this.state.formula + '=' + res,
-			currentValue: res
-		});
+		// si el grupo de signos es mayor a 1
+		if (signsSize.length > 1) {
+			// si el ultimo signo es negastivo y el penultimo no
+			if (signsSize[signsSize.length - 1] == '-') {
+				let newNum = '-' + numbers[1]
+				console.log('el ultimo signo es negativo');
+				console.log(newNum);
+				console.log(signsSize[signsSize.length - 2] + "  &&& " + signsSize[signsSize.length - 1])
+				let res = eval(newNum + signsSize[signsSize.length - 2] + numbers[0]);
+				console.log(res);
+				this.setState({
+					formula: this.state.formula + '=' + res,
+					currentValue: res
+				});
+			// si el ultimo signo es diferente de negativo
+			} else {
+				console.log(eval(numbers[0] + signsSize[signsSize.length - 1] + numbers[1]));
+				console.log("this is the last sign " + signsSize[signsSize.length - 1]);
+				
+				let res = eval(numbers[0] + signsSize[signsSize.length - 1] + numbers[1]);
+				this.setState({
+					formula: this.state.formula + '=' + res,
+					currentValue: res
+				});
+			}
+			// cualquier otra operacion
+		} else {
+			let res = eval(this.state.formula);
+			this.setState({
+				formula: this.state.formula + '=' + res,
+				currentValue: res
+			});	
+		}		
 	}
 
 	render(){
 		return (
-			<div>
-				<Screen 
-					currentValue={this.state.currentValue} 
-					formula={this.state.formula} 
-				/>
-				<Btns				
-					handleNumbers={this.handleNumbers}
-					handleClear={this.handleClear}
-					handleDecimal={this.handleDecimal}
-					handleResult={this.handleResult}
-					handleSign={this.handleSign}
-				/>
+			<div className="container">
+				<div>
+					<Screen 
+						currentValue={this.state.currentValue} 
+						formula={this.state.formula} 
+					/>
+					<Btns				
+						handleNumbers={this.handleNumbers}
+						handleClear={this.handleClear}
+						handleDecimal={this.handleDecimal}
+						handleResult={this.handleResult}
+						handleSign={this.handleSign}
+					/>
+				</div>
 			</div>
 		);
 	}
@@ -109,27 +132,42 @@ class Calculator2 extends React.Component{
 const Btns = props => {
 	return(
 		<div>
-			<button id='equals'	value='='	onClick={props.handleResult}>=</button>
+			<div>
+				<button className="btn btn-danger x2width" id='clear' value='ac'					onClick={props.handleClear}>ac</button>
+				<button className="btn btn-info" id='multiply'	value='*' 	onClick={props.handleSign}>*</button>
+				<button className="btn btn-info" id='divide'		value='/' 	onClick={props.handleSign}>/</button>        
+			</div>
+			      
+			<div>
+				<button className="btn btn-primary" id='seven'	value='7' 	onClick={props.handleNumbers}>7</button>
+				<button className="btn btn-primary" id='eight'	value='8' 	onClick={props.handleNumbers}>8</button>
+				<button className="btn btn-primary" id='nine'	value='9' 	onClick={props.handleNumbers}>9</button>
+				<button className="btn btn-info" id='subtract'	value='-' 	onClick={props.handleSign}>-</button>
+			</div>
+			      
+			<div>
+				<button className="btn btn-primary" id='four'	value='4' 	onClick={props.handleNumbers}>4</button>
+				<button className="btn btn-primary" id='five'	value='5' 	onClick={props.handleNumbers}>5</button>
+				<button className="btn btn-primary" id='six'	value='6' 	onClick={props.handleNumbers}>6</button>
+				<button className="btn btn-info" id='add'		value='+' 	onClick={props.handleSign}>+</button>
+			</div>
 
-			<button id='zero'	value='0' 	onClick={props.handleNumbers}>0</button>
-			<button id='one' 	value='1' 	onClick={props.handleNumbers}>1</button>
-			<button id='two'	value='2' 	onClick={props.handleNumbers}>2</button>
-			<button id='three'	value='3' 	onClick={props.handleNumbers}>3</button>
-			<button id='four'	value='4' 	onClick={props.handleNumbers}>4</button>
-			<button id='five'	value='5' 	onClick={props.handleNumbers}>5</button>
-			<button id='six'	value='6' 	onClick={props.handleNumbers}>6</button>
-			<button id='seven'	value='7' 	onClick={props.handleNumbers}>7</button>
-			<button id='eight'	value='8' 	onClick={props.handleNumbers}>8</button>
-			<button id='nine'	value='9' 	onClick={props.handleNumbers}>9</button>
-			
-			<button id='add'		value='+' 	onClick={props.handleSign}>+</button>
-			<button id='subtract'	value='-' 	onClick={props.handleSign}>-</button>
-			<button id='multiply'	value='*' 	onClick={props.handleSign}>*</button>
-			<button id='divide'		value='/' 	onClick={props.handleSign}>/</button>
-			
-			<button id='decimal'	value='.' 	onClick={props.handleDecimal}>.</button>
-			
-			<button id='clear'					onClick={props.handleClear}>ac</button>
+			<div className="box">
+				<div>
+					<div>
+						<button className="btn btn-primary" id='one' 	value='1' 	onClick={props.handleNumbers}>1</button>
+						<button className="btn btn-primary" id='two'	value='2' 	onClick={props.handleNumbers}>2</button>
+						<button className="btn btn-primary" id='three'	value='3' 	onClick={props.handleNumbers}>3</button>
+					</div>
+					<div>
+						<button className="btn btn-primary x2width" id='zero'	value='0' 	onClick={props.handleNumbers}>0</button>
+						<button className="btn btn-info" id='decimal'	value='.' 	onClick={props.handleDecimal}>.</button>        
+					</div>
+				</div>
+				<div>
+					<button className="btn btn-danger x2height" id='equals'	value='='	onClick={props.handleResult}>=</button>
+				</div>
+			</div>
 		</div>		
 	);
 }
@@ -137,8 +175,8 @@ const Btns = props => {
 const Screen = props => {
 	return (
 		<div>
-			<div id='formula'>{props.formula}</div>
-			<div id='display'>{props.currentValue}</div>
+			<div className='well' id='formula'>{props.formula}</div>
+			<div className='well' id='display'>{props.currentValue}</div>
 		</div>
 	);
 }
