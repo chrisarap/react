@@ -1,8 +1,13 @@
 body {
 	background: green;
+	text-align: center;
 }
 
 .menu{
 	display: flex;
 	border: solid;	
+}
+
+.row {
+	margin: 40px;
 }
