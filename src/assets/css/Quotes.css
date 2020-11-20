@@ -1,21 +1,19 @@
 #root{
-	display: flex;
-	margin-top: 100px; 
+	display: flex;	
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	font-family: consolas;
-
 }
 
 h1{text-align: center;}
+
 p{
 	text-align: right;
 }
 
 body {
 	margin: 0;
-	background: green;
 	color: green;
 	display: flex;
 	flex-direction: column;

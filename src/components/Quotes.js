@@ -1,18 +1,52 @@
 import React from 'react';
 
+const colors = [
+	'green',
+	'blue',
+	'grey',
+	'red',
+	'darkgreen',
+	'brown',
+	'black',
+	'orange',
+	'lighglue',
+	'darkred',
+	'#16a085',
+	'#27ae60',
+	'#2c3e50',
+	'#f39c12',
+	'#e74c3c',
+	'#9b59b6',
+	'#FB6964',
+	'#342224',
+	'#472E32',
+	'#BDBB99',
+	'#77B1A9',
+	'#73A857'
+];
+
 class Quotes extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			randomNumber: Math.floor(Math.random() * 10)
+			randomNumber: Math.floor(Math.random() * 10),
+			randomColor: 0
 		}
 		this.handleClick = this.handleClick.bind(this);
+		this.handleColor = this.handleColor.bind(this);
 	}
 
 	handleClick(){
 		this.setState({
 			randomNumber: Math.floor(Math.random() * 10)
 		});
+		this.handleColor();
+	}
+
+	handleColor(){
+		this.setState({
+			randomColor: Math.floor(Math.random() * colors.length)
+		})
 	}
 
 	render(){
@@ -33,20 +67,31 @@ class Quotes extends React.Component {
 		let quote = quotes[this.state.randomNumber][0];
 		let person = quotes[this.state.randomNumber][1];
 		return (
-			<div>
-				<div className="box">
-					<h1><span>"</span>{quote}</h1>
-					<p>-{person}</p>
-					<div className="buttons">
-							<div className="media">
-								<a href="#" target="_blank">facebook</a>
-								<a href="#" target="_blank">youtube</a>
-							</div>
-						<button onClick={this.handleClick}>New quote</button>
+			<div style={{
+				'background': colors[this.state.randomColor],
+				'width': '100vw',
+				'height': '100vh',
+				'padding-top': '100px',
+				'display': 'flex',
+				'flex-direction': 'column',
+				'justify-content': 'center',
+				'align-items': 'center'
+			}}>
+				<div id='quote-box'>
+					<div className="box">
+						<h1 style={{'color': colors[this.state.randomColor]}} id='text'><span>"</span>{quote}</h1>
+						<p style={{'color': colors[this.state.randomColor]}} id='author'>-{person}</p>
+						<div className="buttons">
+								<div className="media">
+									<a style={{'background': colors[this.state.randomColor]}} id='tweet-quote' href="twitter.com/intent/tweet" target="_blank">tweet</a>
+									<a style={{'background': colors[this.state.randomColor]}} href="#" target="_blank">youtube</a>
+								</div>
+							<button style={{'background': colors[this.state.randomColor]}} id='new-quote' onClick={this.handleClick}>New quote</button>
+						</div>
 					</div>
+					<p className="autor">by Chris</p>
+					<script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
 				</div>
-				<p className="autor">by Chris</p>
-				<script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
 			</div>
 
 		);
