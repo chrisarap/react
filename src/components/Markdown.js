@@ -1,18 +1,21 @@
 import React from 'react';
 
+let marked = require('marked');
+
+marked.setOptions({
+  breaks: true
+});
+
 class Markdown extends React.Component {
 	constructor(props){
 		super(props);	
 		this.state = {
-			input: text,
-
+			markdown: text,
 			editMax: false,
 			editHide: false,
 
 			viewMax: false,
 			viewHide: false
-			
-
 		};
 		// connect buttons
 		this.handleChange =  this.handleChange.bind(this);
@@ -23,7 +26,7 @@ class Markdown extends React.Component {
 	// get the event and edit the state
 	handleChange(e){
 		this.setState({
-			input: e.target.value
+			markdown: e.target.value
 		});
 	}
 
@@ -75,12 +78,12 @@ class Markdown extends React.Component {
 			<div className="Markdown">
 				{/* editor */}
 				<div className={classes[0]}>
-					<Editor myClass={textClass} myProp={this.handleEditMax} input={this.state.input} onChange={this.handleChange} />
+					<Editor myClass={textClass} myProp={this.handleEditMax} markdown={this.state.markdown} onChange={this.handleChange} />
 				</div>
 
 				{/* viewer */}
-				<div className={classes[1]}>				
-					<Viewer myClass={textClass} myProp={this.handleViewMax} input={this.state.input} />
+				<div className={classes[1]}>
+					<Viewer markdown={this.state.markdown} myClass={textClass} myProp={this.handleViewMax} markdown={this.state.markdown} />
 				</div>
 			</div>
 		);
@@ -91,19 +94,24 @@ const Editor = props => {
 	return (
 		<div className="editor">
 			<Toolbar onClick={props.myProp} name="Editor"/>
-				<textarea className={props.myClass} value={props.input} onChange={props.onChange} />
+				<textarea id='editor' className={props.myClass} value={props.markdown} onChange={props.onChange} />
 		</div>
 	);
 }
 
 const Viewer = props => {
-	return (
-		<div>
-			<Toolbar onClick={props.myProp} name="Viewer"/>
-			<textarea className={props.myClass} value={props.input} disabled />
-		</div>
-	);
-}
+  return (
+  	<div>
+		<Toolbar onClick={props.myProp} name="Editor"/>
+	    <div
+	      dangerouslySetInnerHTML={{
+	        __html: marked(props.markdown)
+	      }}
+	      id='preview'
+	    />
+	</div>
+  );
+};
 
 const Toolbar = props => {
 	return (
@@ -117,21 +125,58 @@ const Toolbar = props => {
 }
 
 const text = 
-`this is a **message**
-and this is the second 
-this is a **message**
-and this is the second 
-line
-this is a **message**
-and this is the second 
-linethis is a **message**
-and this is the second 
-linethis is a **message**
-and this is the second 
-linethis is a **message**
-and this is the second 
-linethis is a **message**
-and this is the second 
-line`;
+`# Welcome to my React Markdown Previewer!
+
+## This is a sub-heading...
+### And here's some other cool stuff:
+  
+Heres some code, \`<inline style>\`, between 2 backticks.
+
+\`\`\`
+// this is multi-line code:
+
+function anotherExample(firstLine, lastLine) {
+  if (firstLine == '\`\`\`' && lastLine == '\`\`\`') {
+    return multiLineCode;
+  }
+}
+\`\`\`
+  
+You can also make text **bold**... whoa!
+Or _italic_.
+Or... wait for it... **_both!_**
+And feel free to go crazy ~~crossing stuff out~~.
+
+The coolest part is probably the toolbar, so go ahead and check that out. There are libraries out there that embed pre-coded toolbards like [SimpleMDE](https://simplemde.com/), but I decided to try to undertake the challenge myself, so this is definitely not perfect (some scrolling issues), but for the most part it works.
+
+There's also [links](https://www.freecodecamp.com/no-stack-dub-sack), and
+> Block Quotes!
+
+And if you want to get really crazy, even tables:
+
+Wild Header | Crazy Header | Another Header?
+------------ | ------------- | ------------- 
+Your content can | be here, and it | can be here....
+And here. | Okay. | I think we get it.
+
+- And of course there are lists.
+  - Some are bulleted.
+     - With differnt indentation levels.
+        - That look like this.
+
+
+1. And there are numbererd lists too.
+1. The tool bar keeps adding 1s.
+1. But the list goes on...
+- Even if you use dashes or asterisks.
+* And last but not least, let's not forget embedded images:
+
+![React Logo w/ Text](https://goo.gl/Umyytc)
+
+Well, that's it! Thanks for visiting my project. The code is in desperate need of a refactor, so maybe I will improve later and add additional functionality like syntax highlighting and fix some of the bugs. For this first round, I was just exploring these techniques and focusing on getting things working. 
+
+Feel free to play around and leave some comments if you have any thoughts!
+`
+
 
 export default Markdown;
